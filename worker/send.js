@@ -4,13 +4,15 @@ amqp.connect('amqp://' + process.env.RABBITMQ, function(err, conn) {
 	if (!err) {
 	    conn.createChannel(function(err, ch) {
 		    var ex = 'broadcast';
-		    var msg = process.argv.slice(2).join(' ') || 'Hello World!';
 		    
 		    ch.assertExchange(ex, 'fanout', {durable: false});
-		    ch.publish(ex, '', new Buffer(msg));
-		    console.log(" [x] Sent %s", msg);
+		    setInterval(function() { 
+			    // conn.close(); process.exit(0) 
+			    var msg = process.argv.slice(2).join(' ') || 'Hello World!';
+			    ch.publish(ex, '', new Buffer(msg));
+			    console.log(" [x] Sent %s", msg);
+			}, 500);
 		});
 	    
-	    setTimeout(function() { conn.close(); process.exit(0) }, 500);
 	}
     });

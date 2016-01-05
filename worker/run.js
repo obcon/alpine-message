@@ -1,6 +1,5 @@
 var amqp = require('amqplib/callback_api');
-var os = require("os");
-console.log("started on: " + os.hostname());
+console.log("started on: " + process.env.WORKER_NAME);
 
 amqp.connect('amqp://' + process.env.RABBITMQ, function(err, conn) {
 	if (!err) {
@@ -17,7 +16,7 @@ amqp.connect('amqp://' + process.env.RABBITMQ, function(err, conn) {
 				var content = msg.content.toString();
 				console.log(" [x] %s", content);
 				if (content.indexOf("Hello") != -1) {
-				    ch.publish(ex, '', new Buffer("Answer from " + os.hostname()));
+				    ch.publish(ex, '', new Buffer("Answer from " + process.env.WORKER_NAME));
 				}
 
 			    }, {noAck: true});
