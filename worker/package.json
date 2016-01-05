@@ -1,0 +1,10 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "message example",
+  "main": "run.js",
+  "author": "Marco Obermeyer",
+  "dependencies": {
+    "amqplib": "^0.4.0"
+  }
+}
